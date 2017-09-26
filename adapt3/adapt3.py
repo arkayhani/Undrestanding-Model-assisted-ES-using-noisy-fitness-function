@@ -76,7 +76,7 @@ for varerror in frange2(0.001,0.5,1):
     numT=1
     numevals=900
     numr=1
-    nummodels=10000#1000#1000#1000#400
+    nummodels=1#1000#1000#1000#400
     
     sigmaerror=varerror
     firstfit=0
@@ -131,7 +131,7 @@ for varerror in frange2(0.001,0.5,1):
                     #for models in range(nummodels):
                         #ind3=ind2+np.multiply((sigma2*float(distant(ind2)))/(float(N)),normalI())
                         if((sigma2*float(distant(ind2)))/(float(N))>0.0000):
-                            ind3=ind2+normalXI((sigma2*float(distant(ind2)))/(float(N)))
+                            ind3=ind2+normalXI(sigma2)
                         else:
                             ind3=ind2
                             print("broke")
@@ -236,7 +236,7 @@ print(len(sigmarange))
 
 plt.xlabel("evaluation")
 plt.ylabel("Prate*")
-f= open('40ofitsssinfinity-900-adaptivesigma-error=0and5trialmaxmodel10000.txt', 'w')
+f= open('40ofitsssinfinity-900-adaptivesigma-error=0and5trialmaxmodel1.txt', 'w')
 for inx1 in range(0,len(prints)):
     f.write('\n')
     for inx2 in range(0,len(prints[inx1])):
