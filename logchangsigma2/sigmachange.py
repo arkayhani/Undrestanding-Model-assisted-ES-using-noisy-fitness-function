@@ -10,7 +10,7 @@ from scipy.linalg import norm, pinv
 from sklearn.cluster import KMeans 
 from matplotlib import pyplot as plt
 
-N=4
+N=40
 
 def frange2(start, end=None, inc=None):
     "A range function, that does accept float increments..."
@@ -230,7 +230,7 @@ print(len(sigmarange))
 
 plt.xlabel("evaluation")
 plt.ylabel("Prate*")
-f= open('4ofitsssinfinity-100000-sigma=0.01-100error=2and5trial.txt', 'w')
+f= open('40ofitsssinfinity-1000-sigma=0.01-100error=0and5trial.txt', 'w')
 for inx1 in range(0,len(prints)):
     f.write('\n')
     for inx2 in range(0,len(prints[inx1])):
