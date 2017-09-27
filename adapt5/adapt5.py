@@ -75,7 +75,6 @@ for varerror in frange2(1.001,1.5,1.5):
     flags=0
     numT=1
     numevals=900
-    numr=1
     nummodels=1#1000#1000#1000#400
     
     sigmaerror=varerror
@@ -103,8 +102,7 @@ for varerror in frange2(1.001,1.5,1.5):
         
             eval=0
             sigmaerror=numT
-            tou=1.0/(math.pow(N,0.5))
-            toui=1.0/(math.pow(N,0.25))
+
             sigma=varerror
             sigma2=sigma
             prograte=0

@@ -74,7 +74,7 @@ for varerror in frange2(2.001,2.5,1):
     countnow=[]
     flags=0
     numT=1
-    numevals=100000
+    numevals=10000
     numr=1
     nummodels=1000#1000#1000#1000#400
     
@@ -230,7 +230,7 @@ print(len(sigmarange))
 
 plt.xlabel("evaluation")
 plt.ylabel("Prate*")
-f= open('40ofitsssinfinity-1000-sigma=0.01-100error=0and5trial.txt', 'w')
+f= open('40oinfinity-10000-sigma=0.01-20error=2and5trial.txt', 'w')
 for inx1 in range(0,len(prints)):
     f.write('\n')
     for inx2 in range(0,len(prints[inx1])):
