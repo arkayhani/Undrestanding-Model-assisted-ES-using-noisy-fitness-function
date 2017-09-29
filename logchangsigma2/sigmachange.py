@@ -68,7 +68,7 @@ sigmarange=frange2(0.01,9.1,1)
 sigmachange=[]
 progreschange=[]
 countchange=[]
-for varerror in frange2(0.001,0.5,1):
+for varerror in frange2(1.001,1.5,1):
     sigmanow=[]
     
     countnow=[]
@@ -230,7 +230,7 @@ print(len(sigmarange))
 
 plt.xlabel("evaluation")
 plt.ylabel("Prate*")
-f= open('n10oinfinity-10000-sigma=0.01-10error=0and5trial.txt', 'w')
+f= open('n10oinfinity-10000-sigma=0.01-10error=1and5trial.txt', 'w')
 for inx1 in range(0,len(prints)):
     f.write('\n')
     for inx2 in range(0,len(prints[inx1])):
