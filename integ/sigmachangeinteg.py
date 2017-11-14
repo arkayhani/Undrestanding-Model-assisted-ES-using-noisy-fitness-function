@@ -10,7 +10,7 @@ from scipy.linalg import norm, pinv
 from sklearn.cluster import KMeans 
 from matplotlib import pyplot as plt
 
-N=100
+N=40
 
 def frange2(start, end=None, inc=None):
     "A range function, that does accept float increments..."
@@ -58,7 +58,7 @@ def normal():
     no=np.random.normal(0,1)
     return no
 prints=[]
-
+prints2=[]
 ind=[]
 #for j in range(N):
  #            ind.append(float(random.randint(0,1024)-512)/100)
@@ -68,13 +68,13 @@ sigmarange=frange2(0.001,4.1,0.25)
 sigmachange=[]
 progreschange=[]
 countchange=[]
-for varerror in frange2(1.001,1.5,1):
+for varerror in frange2(0.00,0.5,1):
     sigmanow=[]
     
     countnow=[]
     flags=0
     numT=1
-    numevals=5000
+    numevals=300
     numr=1
     nummodels=1000#1000#1000#1000#400
     
@@ -93,13 +93,16 @@ for varerror in frange2(1.001,1.5,1):
     #kk2=np.zeros(3000) 
     turns=0
     tr=0
-    trnum=3
+    trnum=10
     for numT in sigmarange:
         progresnow=[]
+        
+        
         pdiagram=[]
         print("p"+str(numT)+"s:"+str(varerror))
+        errorbar=[]
         for trials in range(trnum):
-            
+            progreserror=[]
         
             eval=0
             tou=1.0/(math.pow(N,0.5))
@@ -132,17 +135,18 @@ for varerror in frange2(1.001,1.5,1):
                     #for models in range(nummodels):
                         #ind3=ind2+np.multiply((sigma2*float(distant(ind2)))/(float(N)),normalI())
                         if((sigma2*float(distant(ind2)))/(float(N))>0.0000):
-                            ind3=ind2+normalXI((sigma2*float(distant(ind2)))/(float(N)))
+                            #ind3=ind2+normalXI((sigma2*float(distant(ind2)))/(float(N)))
+                            ind3=ind2+normalI()*((sigma2*float(distant(ind2)))/(float(N)))
                         else:
                             ind3=ind2
                             print("broke")
                         
                        
-                        if(sigmaerror*((float(2*math.pow(distant(ind2),2)))/float(N))>0.0000):
-                            s3=sphere(ind3)+normalX(sigmaerror*((float(2*math.pow(distant(ind2),2)))/float(N)))
-                        else:
-                            s3=sphere(ind3)
-                            print("broke")
+                        #if(sigmaerror*((float(2*math.pow(distant(ind2),2)))/float(N))>0.0000):
+                        s3=sphere(ind3)+normal()*(sigmaerror*((float(2*math.pow(distant(ind2),2)))/float(N)))
+                        #else:
+                         #   s3=sphere(ind3)
+                          #  print("broke")
                         if(sphere(ind3)<1e-30):
                             print(eval)
                             print("broke3")
@@ -180,12 +184,13 @@ for varerror in frange2(1.001,1.5,1):
                             
 
                         #if(eval!=0):    
-                        prograte+=-1*(math.log10(float(distant(ind2))/float(distant(ind))))*N
+                        prograte+=-1*(math.log(float(distant(ind2))/float(distant(ind))))*N
+                        #prograte+=abs(newfitness-bestfitness)*N/(2*bestfitness)
                         bestfitness=newfitness
                         
                       
                         s2=bestfitness
-                        #ind=ind2
+                        ind=ind2
                         flag=1
                 s2=bestfitness
                 
@@ -196,21 +201,29 @@ for varerror in frange2(1.001,1.5,1):
 
                 if(bestfitness==0.0):
                     break
+                progreserror.append(MSE/eval)
                 #pdiagram.append(progresnow)
             turns+=1
             progresnow.append(prograte/eval)
+            errorbar.append(progreserror)
+     
             #pdiagram.append(prograte/float(numevals))
-           
-   
-        prints.append(progresnow) 
-        del progresnow  
+      
+        errorbar2=[sum(e)/len(e) for e in zip(*errorbar)]
+
+        prints.append(progresnow)
+        prints2.append(errorbar2)
+        del progresnow 
+        del progreserror 
     sigmachange.append(sigmanow)
     countchange.append(countnow)
     #progreschange.append(progresnow)
-plt.figure(4)
+plt.figure(3)
 #if(sigmaerror==0.01):
 print(len(array(prints)[:,0]))
 print(len(sigmarange))
+newpt=[sum(e)/len(e) for e in prints]
+plt.plot(sigmarange,array(newpt),'*y')
 #plt.plot(range(0,numevals-1),sigmachange[0],'r*--')
 #plt.xlabel("evaluation")
 #plt.ylabel("Sigma*")
@@ -228,15 +241,37 @@ print(len(sigmarange))
 #    plt.plot(frange2(0.01,10.1,2),pdiagram,"b*--")
 
 
-plt.xlabel("evaluation")
-plt.ylabel("Prate*")
-f= open('reset100oinfinity-5000-sigma=0.001-4.1error=1and3trial5.txt', 'w')
-for inx1 in range(0,len(prints)):
-    f.write('\n')
-    for inx2 in range(0,len(prints[inx1])):
-        f.write(str(prints[inx1][inx2])+',')  # python will convert \n to os.linesep
+plt.figure(2)
+#if(sigmaerror==0.01):
+
+print(len(array(prints2)[0]))
+plt.plot(range(0,300),np.log10(array(prints2)[1]),'-y',range(0,300),np.log10(array(prints2)[4]),'-r')
+#plt.plot(range(0,numevals-1),sigmachange[0],'r*--')
+#plt.xlabel("evaluation")
+#plt.ylabel("Sigma*")
+#plt.figure(5)
+#plt.plot(range(0,numevals-1),countchange[0],'g*--')
+#plt.xlabel("evaluation")
+#plt.ylabel("loop break count*")
+#plt.figure(6)
+#plt.plot(range(0,numevals-1),progreschange[0],'b*--')
+#plt.plot(frange2(0.001,2.5,1),array(prints)[:,0],'r*--',sigmaerror,array(prints)[:,1],'g*--',sigmarange,array(prints)[:,2],'b*--',sigmarange,array(prints)[:,3],'y*--')
+    
+#if(sigmaerror==4.01):
+#    plt.plot(frange2(0.01,10.1,2),pdiagram,"g*--")
+#if(sigmaerror==8.01):
+#    plt.plot(frange2(0.01,10.1,2),pdiagram,"b*--")
+
+plt.xlabel("eval")
+plt.ylabel("error(log10)")
+
+#f= open('reset100oinfinity-5000-sigma=0.001-4.1error=1and3trial5.txt', 'w')
+#for inx1 in range(0,len(prints)):
+#    f.write('\n')
+#    for inx2 in range(0,len(prints[inx1])):
+#        f.write(str(prints[inx1][inx2])+',')  # python will convert \n to os.linesep
       # python will convert \n to os.linesep
     
-f.close()
+#f.close()
 
 
